@@ -1,16 +1,16 @@
 #heart {
     z-index: 2;
     position: fixed;
-    top: 50%;
+    top: 35%;
     left: 50%;
     margin-top: -100px;
     margin-left: -100px;
-    height: 200px;
-    width: 200px;
+    height: 150px;
+    width: 150px;
     background-color: pink;
     transform: rotate(-45deg);
     animation-name: beat;
-    animation-duration: 1s;
+    animation-duration: 2s;
     animation-iteration-count: infinite;
 }
 
@@ -20,10 +20,10 @@
     position: fixed;
     top: 50%;
     left: 50%;
-    margin-top: -200px;
-    margin-left: -100px;
-    height: 200px;
-    width: 200px;
+    margin-top: -150px;
+    margin-left: -75px;
+    height: 150px;
+    width: 150px;
     border-radius: 50%;
     background-color: pink;
 }
@@ -34,10 +34,10 @@
     position: fixed;
     top: 50%;
     left: 50%;
-    margin-top: -100px;
+    margin-top: -75px;
     margin-left: 0px;
-    height: 200px;
-    width: 200px;
+    height: 150px;
+    width: 150px;
     border-radius: 50%;
     background-color: pink;
 }
@@ -52,8 +52,35 @@
     height: 100%;
     background: white;
     animation-name: back;
-    animation-duration: 1s;
+    animation-duration: 2s;
     animation-iteration-count: infinite;
+}
+
+
+svg {
+    position: fixed;
+    top: 65%;
+    left: 50%;
+    margin-top: -150px;
+    margin-left: -125px;
+    fill:none;
+    stroke-width: 15;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+#frontline {
+    z-index: 4;
+    stroke:blue;
+    stroke-dasharray: 80, 600;
+    stroke-dashoffset: 680;
+    animation: dash 2s linear infinite;
+}
+
+#backline {
+    z-index: 3;
+    stroke: blue;
+    opacity: 0.3;
 }
 
 @keyframes beat {
@@ -68,5 +95,14 @@
 @keyframes back {
     50% {
         background: #ffe6f2;
+    }
+}
+
+@keyframes dash {
+    50% {
+        opacity: 0;
+    }
+    to {
+        stroke-dashoffset: 0;
     }
 }
