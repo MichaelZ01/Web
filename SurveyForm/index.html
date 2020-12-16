@@ -2,10 +2,12 @@
 <html>
 <head>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com"> 
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1 id="title">MichaelZ01 Survey Form</h1>
-    <p id="description">Survey description</p>
+    <h1 id="title">MichaelZ01 Movie Survey</h1>
+    <p id="description">Give your opinion on your favourites, most hated or anywhere in between</p>
 
     <form id="survey-form">
 
@@ -14,7 +16,7 @@
             <input id="name" type="text" placeholder="Enter your name" class="form-input" required>
         </div>
         <div class="form-elem">
-            <label id="email-label" for="email">Email: </label>
+            <label id="email-label" for="email">Email</label>
             <input id="email" type="email" placeholder="Enter your Email" class="form-input" required>
         </div>
         <div class="form-elem">
@@ -26,10 +28,10 @@
             <input id="Director Name" type="text" placeholder="Director Name" class="form-input" required>
         </div>
         <div class="form-elem">
-            <label id="number-label" for="number">Rating: </label>
+            <label id="number-label" for="number">Rating</label>
             <input id="number" type="number" min="0" max="10" placeholder="Rating out of 10" class="form-input" required>
         </div>
-        <div>
+        <div class="form-elem">
             <label id="dropdown-label" for="dropdown">Which option best describes you</label>
             <select id="dropdown" class="form-input" required>
                 <option disabled selected value="">Choose an option</option>
@@ -38,7 +40,7 @@
                 <option value="Casual">Casual</option>
             </select>
         </div>
-        <div>
+        <div class="form-elem">
             <input id="radio-definitely" value="definitely" type="radio" name="recommendation">
             <label for="radio-definitely">Definitely</label>
 
@@ -48,7 +50,7 @@
             <input id="radio-no" value="no" type="radio" name="recommendation">
             <label for="radio-no">No</label>
         </div>
-        <div>
+        <div class="form-elem">
             <input id="Action" value="Action" type="checkbox">
             <label>Action</label>
 
@@ -67,10 +69,10 @@
             <input id="Animation" value="Animation" type="checkbox">
             <label>Animation</label>
         </div>
-        <div>
+        <div class="form-elem">
             <textarea></textarea>
         </div>
-        <div>
+        <div class="form-elem">
             <button id="submit">Submit</button>
         </div>
         
