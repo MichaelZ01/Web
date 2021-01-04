@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-
 function Square(props) {
   return (
     <button className="square" onClick={props.onClick}>
@@ -50,6 +49,7 @@ class Game extends React.Component {
     this.state = {
       history: [{
         squares: Array(9).fill(null),
+        currentSquare: ['empty'],
       }],
       xIsNext: true,
       stepNumber: 0,
@@ -60,6 +60,7 @@ class Game extends React.Component {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
+    const currentSquare = current.currentSquare.slice();
 
     if (calculateWinner(squares) || squares[i]) {
       return;
@@ -69,7 +70,9 @@ class Game extends React.Component {
     this.setState({
       history: history.concat([{
         squares: squares,
+        currentSquare: ('row: ' + (Math.floor(i/3) + 1) + ' col: ' + (i % 3 + 1)),
       }]),
+      
       stepNumber: history.length,
       xIsNext: !this.state.xIsNext,
     });
@@ -83,7 +86,7 @@ class Game extends React.Component {
   }
 
   render() {
-    const history = this.state.history;
+    const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
 
@@ -94,11 +97,11 @@ class Game extends React.Component {
       return (
         <li key={move}>
           <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <p className="move-pos">{history[move].currentSquare}</p> 
         </li>
       )
 
     });
-
 
     let status;
     if (winner) {
