@@ -58,4 +58,12 @@ li {
     margin-left: 10px;
 }
 
+.move-sort {
+    padding-top: 10px;
+    padding-left: 30px;
+}
+
+button {
+    width: 105px;
+}
   
