@@ -4,7 +4,6 @@ import './index.css';
 
 // May consider writing a function to avoid having to import manually
 import flipImage from './images/Flipped.jpg';
-import blankImage from './images/Blank.jpg';
 import catImage from './images/Cat.jpg';
 import dogImage from './images/Dog.jpg';
 import sheepImage from './images/Sheep.jpg';
@@ -14,7 +13,7 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // Memory cards
+      // Cards are randomly sorted at the start
       cards: [
         {
           name: 'Cat',
@@ -54,39 +53,53 @@ class Game extends React.Component {
     }
   }
 
+  // Handles when a card is picked
   handleClick(i) {
-    const cards = this.state.cards;
     const cardChosen = this.state.cardChosen;
     const cardFound = this.state.cardFound;
 
+    // A already picked card is picked
     if(cardChosen.includes(i) || cardFound.includes(i)) {
       return;
     }
 
+    // If it is the first card picked
     if(cardChosen.length === 0) {
       this.setState({
         cardChosen: [...this.state.cardChosen, i]
       });
+    // If it is the second card picked
     } else if (cardChosen.length === 1) {
       this.setState({
         cardChosen: [...this.state.cardChosen, i]
       }, () => {this.checkMatch()});
     }
+    // If more than 2 cards are picked, subsequent cards are ignored
   }
 
+  // Handles restarting the game
+  handleReplay() {
+    this.setState({
+      cards: [...this.state.cards].sort(() => 0.5 - Math.random()),
+      cardChosen: [],
+      cardFound: [],
+    });
+  }
+
+  // Checks if the two selected cards are matching
   checkMatch() {
-    const cards = this.state.cards;
+    const cards = this.state.cards.slice();
     const cardFound = this.state.cardFound.slice();
     const cardChosen = this.state.cardChosen.slice();
 
-    console.log(this.state.cardChosen);
+    // If cards are matching, they are added to cardFound
     if(cards[cardChosen[0]].name === cards[cardChosen[1]].name) {
       this.setState({
         cardFound: [...cardFound, ...cardChosen],
         cardChosen: [],
       });
+    // Else, the cards are displayed for 0.5s then flipped back over
     } else {
-
       setTimeout( () =>{
         this.setState({ 
           cardChosen: [],
@@ -95,15 +108,14 @@ class Game extends React.Component {
     }
   }
 
-  // Constructs display
+  // Flips cards that aren't found or picked.
   coverCards() {
     const cardDisplay = [];
 
     for(let i = 0; i < this.state.cards.length; i++) {
-      if(this.state.cardChosen.includes(i)) {
+      if(this.state.cardChosen.includes(i) || this.state.cardFound.includes(i)) {
         cardDisplay.push(this.state.cards[i]);
-      } else if(this.state.cardFound.includes(i)) {
-        cardDisplay.push(this.state.cards[i]);
+      // Flip card
       } else {
         cardDisplay.push({name: 'flipped', img: flipImage});
       }
@@ -112,14 +124,24 @@ class Game extends React.Component {
   }
 
   render() {
-    const cardDisplay = this.coverCards();
+    const score = this.state.cardFound.length / 2;
 
     return (
       <div className="game">
-        <Clock/>
+        <div className="game-info">
+          <div className="game-time">
+            <Clock/>
+          </div>
+          <div className="game-replay">
+            <button onClick={() => this.handleReplay()}> Replay</button>
+          </div>
+          <div className="game-score">
+            <h2> Score: {score}</h2>
+          </div>
+        </div>
         <div className="game-board">
           <Board
-            cards={cardDisplay}
+            cards={this.coverCards()}
             onClick={(i) => this.handleClick(i)}
           />
         </div>
@@ -127,7 +149,6 @@ class Game extends React.Component {
     );
   }
 }
-
 
 class Board extends React.Component {
   renderSquare(i) {
@@ -151,18 +172,13 @@ class Board extends React.Component {
 
   createBoard() {
     let board = [];
-
     for(let i = 0; i < 2; i++) {
-
       let children = [];
       for(let j=0; j < 4; j++) {
-
         children.push(this.renderSquare(i * 4 + j))
       }
-
       board.push(<div key = {i} className="board-row">{children}</div>);
     }
-
     return board;
   }
 }
