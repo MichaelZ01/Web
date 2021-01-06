@@ -1,3 +1,7 @@
+body {
+    font: 14px "Century Gothic", Futura, sans-serif;
+}
+
 img{
     height: 200px;
     width: 200px;
@@ -7,4 +11,21 @@ img{
 
 .board-row {
     display: flex;
+}
+
+.game-info {
+    width: 790px;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* MacOS Safari requires the border: none for the height to change*/
+button {
+    font: inherit;
+    width: 100px;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
 }
