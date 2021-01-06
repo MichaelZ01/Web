@@ -1,5 +1,10 @@
 img{
     height: 200px;
     width: 200px;
-    padding: 0px;
+    vertical-align: middle;
+    border: 2px solid black;
+}
+
+.board-row {
+    display: flex;
 }

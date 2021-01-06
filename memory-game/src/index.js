@@ -14,6 +14,7 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      // Memory cards
       cards: [
         {
           name: 'Cat',
@@ -47,44 +48,95 @@ class Game extends React.Component {
           name: 'Yak',
           img: yakImage,
         },
-      ]
+      ].sort(() => 0.5 - Math.random()),
+      cardChosen: [],
+      cardFound: [],
     }
   }
 
+  handleClick(i) {
+    const cards = this.state.cards;
+    const cardChosen = this.state.cardChosen;
+    const cardFound = this.state.cardFound;
+
+    if(cardChosen.includes(i) || cardFound.includes(i)) {
+      return;
+    }
+
+    if(cardChosen.length === 0) {
+      this.setState({
+        cardChosen: [...this.state.cardChosen, i]
+      });
+    } else if (cardChosen.length === 1) {
+      this.setState({
+        cardChosen: [...this.state.cardChosen, i]
+      }, () => {this.checkMatch()});
+    }
+  }
+
+  checkMatch() {
+    const cards = this.state.cards;
+    const cardFound = this.state.cardFound.slice();
+    const cardChosen = this.state.cardChosen.slice();
+
+    console.log(this.state.cardChosen);
+    if(cards[cardChosen[0]].name === cards[cardChosen[1]].name) {
+      this.setState({
+        cardFound: [...cardFound, ...cardChosen],
+        cardChosen: [],
+      });
+    } else {
+
+      setTimeout( () =>{
+        this.setState({ 
+          cardChosen: [],
+        });
+      }, 500);
+    }
+  }
+
+  // Constructs display
+  coverCards() {
+    const cardDisplay = [];
+
+    for(let i = 0; i < this.state.cards.length; i++) {
+      if(this.state.cardChosen.includes(i)) {
+        cardDisplay.push(this.state.cards[i]);
+      } else if(this.state.cardFound.includes(i)) {
+        cardDisplay.push(this.state.cards[i]);
+      } else {
+        cardDisplay.push({name: 'flipped', img: flipImage});
+      }
+    }
+    return cardDisplay;
+  }
 
   render() {
+    const cardDisplay = this.coverCards();
+
     return (
       <div className="game">
         <Clock/>
-        <div>
-          <Board/>
+        <div className="game-board">
+          <Board
+            cards={cardDisplay}
+            onClick={(i) => this.handleClick(i)}
+          />
         </div>
       </div>
     );
   }
 }
 
+
 class Board extends React.Component {
-  createBoard() {
-    let board = [];
-
-    for(let i = 0; i < 2; i++) {
-      let children = [];
-      for(let j =0; j < 4; j++) {
-        children.push(this.renderSquare())
-      }
-
-      board.push(<div className="board-row">{children}</div>);
-    }
-
-    return board;
-  }
-
-  renderSquare() {
+  renderSquare(i) {
     return(
-      <img
-        src= {catImage}
-        alt="Flipped"
+      <Square
+        key = {i}
+        src={this.props.cards[i].img}
+        alt={this.props.cards[i].name}
+        onClick={() => this.props.onClick(i)}
       />
     )
   }
@@ -96,8 +148,35 @@ class Board extends React.Component {
       </div>
     );
   }
+
+  createBoard() {
+    let board = [];
+
+    for(let i = 0; i < 2; i++) {
+
+      let children = [];
+      for(let j=0; j < 4; j++) {
+
+        children.push(this.renderSquare(i * 4 + j))
+      }
+
+      board.push(<div key = {i} className="board-row">{children}</div>);
+    }
+
+    return board;
+  }
 }
 
+function Square(props) {
+  return(
+    <img 
+      className = "square"
+      src = {props.src}
+      alt = {props.alt}
+      onClick={props.onClick}
+    />
+  );
+}
 
 class Clock extends React.Component {
   constructor(props) {
