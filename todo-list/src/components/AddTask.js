@@ -1,13 +1,14 @@
 import React from 'react';
 import React from 'react';
-
 import { connect } from 'react-redux';
 import { addTask } from '../redux/actions';
-
 
 class AddTask extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            input: ""
+        };
     }
 
     handleChange(event) {
