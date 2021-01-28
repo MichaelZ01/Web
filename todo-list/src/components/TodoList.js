@@ -13,6 +13,7 @@ const TodoList = ({ todos }) => {
     </ul>
 };
 
+// Returns tasks depending on the current visibility filter
 const mapStateToProps = (state) => {
     const { visibilityFilter } = state;
     const allTasks = getTasks(state);

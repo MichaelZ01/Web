@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { addTask } from '../redux/actions';
 
+// Adds tasks to current state
 class AddTask extends React.Component {
     constructor(props) {
         super(props);
@@ -11,12 +12,14 @@ class AddTask extends React.Component {
         };
     }
 
+    // Updates input
     handleChange(event) {
         this.setState({
             input: event.target.value
         });
     }
 
+    // Adds task and clears input
     handleAddTask() {
         this.props.addTask(this.state.input);
         this.setState({
